@@ -10,10 +10,15 @@ namespace DAL.Context
 {
     public class DataContext:IdentityDbContext<ApplicationUser>
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public DataContext(DbContextOptions<DataContext> options):base(options)
         {
-            optionsBuilder.UseSqlServer("Server=202-3\\SQLDERS;Database=OrganicDB;uid=sa;pwd=1;TrustServerCertificate=true");
+            
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseSqlServer("Server=202-3\\SQLDERS;Database=OrganicDB;uid=sa;pwd=1;TrustServerCertificate=true");
+        //}
 
         //FluentAPI
         protected override void OnModelCreating(ModelBuilder builder)

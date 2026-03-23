@@ -10,6 +10,11 @@ namespace DAL.Concrete.EfCore
 {
     public class EfCoreProductDal : EfCoreGenericRepository<Product,DataContext>, IProductDal
     {
-       
+        private readonly DataContext _context;
+
+        public EfCoreProductDal(DataContext context):base(context)
+        {
+            _context=context;
+        }
     }
 }

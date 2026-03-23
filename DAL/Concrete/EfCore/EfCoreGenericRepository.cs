@@ -43,7 +43,7 @@ namespace DAL.Concrete.EfCore
             return _context.SaveChanges();
         }
 
-        public int Update(T entity)
+        public int Update()
         {
             return _context.SaveChanges();
         }

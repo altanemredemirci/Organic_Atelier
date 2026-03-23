@@ -5,8 +5,9 @@ using System.Text;
 
 namespace CORE.Identity
 {
-    public class ApplicationUser:IdentityUser
-    {
+    //Kullanıcı sınıfı
+    public class ApplicationUser: IdentityUser  //Microsoft.AspNetCore.Identity.EntityFramework
+    {       
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
