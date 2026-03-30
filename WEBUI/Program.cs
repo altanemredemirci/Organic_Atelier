@@ -38,6 +38,10 @@ namespace WEBUI
             builder.Services.AddScoped<IContactDal, EfCoreContactDal>();
             builder.Services.AddScoped<IContactService, ContactService>();
 
+            builder.Services.AddScoped<IMailDal, EfCoreMailDal>();
+            builder.Services.AddScoped<IMailService, MailService>();
+
+
             #region  Service lifetimes(Servis ömürleri) ?
             /*
   
@@ -91,7 +95,7 @@ Bütün bunlarý daha anlaþýlýr hale getirebilmek için birde örnekler üzer
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Admin}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

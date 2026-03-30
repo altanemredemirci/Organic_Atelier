@@ -14,12 +14,6 @@ namespace DAL.Concrete.EfCore
         {
             _context = context;
         }
-
-        public virtual List<T> GetAll()
-        {
-            return _context.Set<T>().ToList();
-        }
-
         public virtual List<T> GetAll(Expression<Func<T,bool>> filter = null)
         {
             var entities = _context.Set<T>().AsQueryable();

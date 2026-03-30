@@ -12,11 +12,13 @@ namespace WEBUI.Controllers
     {
         private readonly IProductService _productService;
         private readonly IContactService _contactService;
+        private readonly IMailService _mailService;
 
-        public HomeController(IProductService productService,IContactService contactService)
+        public HomeController(IProductService productService,IContactService contactService,IMailService mailService)
         {
             _productService=productService;
             _contactService = contactService;
+            _mailService = mailService;
         }
         public IActionResult Index()
         {
@@ -70,6 +72,13 @@ namespace WEBUI.Controllers
             }
 
             return View(mail);
+        }
+
+        public IActionResult News(string email)
+        {
+            var model = _mailService.SendMail(email);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -26,11 +26,6 @@ namespace BLL.Concrete
             return _categoryDal.Delete(id);
         }
 
-        public List<Category> GetAll()
-        {
-            return _categoryDal.GetAll();
-        }
-
         public List<Category> GetAll(Expression<Func<Category, bool>> filter = null)
         {
             return _categoryDal.GetAll(filter);
