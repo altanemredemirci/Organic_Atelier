@@ -1,0 +1,40 @@
+﻿@model List<Product>
+
+<div class="similar-products">
+    <div class="section-header">
+        <h2 class="section-title">Benzer Ürünler</h2>
+        <div class="nav-buttons">
+            <button class="nav-btn">←</button>
+            <button class="nav-btn">→</button>
+        </div>
+    </div>
+
+    <div class="products-grid">
+        @foreach (Product item in Model)
+        {
+            <div class="product-card">
+                <div class="card-image">
+                    <img src="~/img/@item.Images[0].Url" alt="@item.Name">
+                    <button class="card-wishlist">❤️</button>
+                </div>
+                @* <h3 class="card-title"><a href="/Home/ProductDetail?id=@item.Id">@item.Name</a></h3> *@
+                <h3 class="card-title"><a asp-action="ProductDetail" asp-controller="Home" asp-route-id="@item.Id">@item.Name</a></h3>
+                <div class="card-rating">
+                    <div class="card-stars">★★★★☆</div>
+                    <span class="card-rating-count">(86)</span>
+                </div>
+                <div class="card-price-row">
+                    <div>
+                        <span class="card-price">₺@item.ListPrice</span>
+                        <span class="card-old-price">₺13,50</span>
+                    </div>
+                    <button class="card-cart-btn">🛒</button>
+                </div>
+            </div>
+
+        }
+
+
+
+    </div>
+</div>

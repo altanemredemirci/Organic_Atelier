@@ -1,0 +1,755 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "ProductDetail";
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
+
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+    .breadcrumb-separator {
+        margin: 0 8px;
+        color: #ccc;
+    }
+
+    .breadcrumb-current {
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Product Grid */
+    .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    @@media (max-width: 768px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Product Images */
+    .product-images {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .main-image {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .main-image img {
+            max-height: 380px;
+            object-fit: contain;
+        }
+
+    .image-thumbnails {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding: 8px 0;
+    }
+
+    .thumbnail-btn {
+        width: 80px;
+        height: 80px;
+        border-radius: 6px;
+        padding: 4px;
+        cursor: pointer;
+        flex-shrink: 0;
+        border: 1px solid #e5e5e5;
+    }
+
+        .thumbnail-btn.active {
+            border: 2px solid #22c55e;
+        }
+
+        .thumbnail-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Product Info */
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .product-badge {
+        display: inline-block;
+        background-color: #dcfce7;
+        color: #166534;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }
+
+    .product-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-top: 8px;
+    }
+
+    .product-rating {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+    .stars {
+        color: #f59e0b;
+        display: flex;
+    }
+
+    .rating-count {
+        margin-left: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .product-price {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .current-price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #15803d;
+    }
+
+    .original-price {
+        margin-left: 8px;
+        font-size: 18px;
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .discount-badge {
+        margin-left: 8px;
+        background-color: #fee2e2;
+        color: #b91c1c;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 4px;
+    }
+
+    .product-description {
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 0;
+        color: #555;
+    }
+
+    .product-options {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .option-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .weight-options {
+        display: flex;
+        gap: 12px;
+    }
+
+    .weight-btn {
+        padding: 8px 16px;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        background: none;
+    }
+
+        .weight-btn.active {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+            color: #15803d;
+        }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+    }
+
+    .quantity-label {
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 12px;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+    }
+
+    .quantity-btn {
+        padding: 4px 12px;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: #666;
+    }
+
+        .quantity-btn:hover {
+            background-color: #f9f9f9;
+        }
+
+    .quantity-input {
+        width: 48px;
+        text-align: center;
+        border: none;
+        border-left: 1px solid #e5e5e5;
+        border-right: 1px solid #e5e5e5;
+        padding: 4px;
+        font-size: 14px;
+    }
+
+    .stock-info {
+        margin-left: 12px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        padding-top: 8px;
+    }
+
+    .add-to-cart {
+        flex: 1;
+        background-color: #16a34a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .add-to-cart:hover {
+            background-color: #15803d;
+        }
+
+    .cart-icon {
+        margin-right: 8px;
+    }
+
+    .action-icon-btn {
+        padding: 12px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: none;
+        cursor: pointer;
+    }
+
+        .action-icon-btn:hover {
+            background-color: #f9f9f9;
+        }
+
+    .delivery-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 12px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .info-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        color: #16a34a;
+    }
+
+    .info-text strong {
+        font-weight: 600;
+        color: #333;
+    }
+
+    /* Product Tabs */
+    .product-tabs {
+        margin-top: 48px;
+    }
+
+    .tabs-nav {
+        display: flex;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .tab-btn {
+        padding: 16px 4px;
+        margin-right: 32px;
+        font-size: 14px;
+        font-weight: 500;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+    }
+
+        .tab-btn.active {
+            color: #16a34a;
+            border-bottom-color: #16a34a;
+        }
+
+    .tab-content {
+        padding: 24px 0;
+    }
+
+        .tab-content h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .tab-content h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        .tab-content p {
+            margin-bottom: 16px;
+        }
+
+        .tab-content ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .tab-content li {
+            margin-bottom: 4px;
+        }
+
+    /* Similar Products */
+    .similar-products {
+        margin-top: 48px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .nav-btn {
+        padding: 8px;
+        border: 1px solid #e5e5e5;
+        border-radius: 50%;
+        background: none;
+        cursor: pointer;
+    }
+
+        .nav-btn:hover {
+            background-color: #f9f9f9;
+        }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    @@media (max-width: 992px) {
+        .products-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .product-card {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 16px;
+        transition: box-shadow 0.3s;
+    }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+    .card-image {
+        position: relative;
+        margin-bottom: 12px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        padding: 8px;
+    }
+
+        .card-image img {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+        }
+
+    .card-wishlist {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background-color: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+        .card-wishlist:hover {
+            background-color: #f9f9f9;
+        }
+
+    .card-title {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .card-rating {
+        display: flex;
+        align-items: center;
+        margin-top: 4px;
+    }
+
+    .card-stars {
+        color: #f59e0b;
+        font-size: 16px;
+    }
+
+    .card-rating-count {
+        margin-left: 4px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .card-price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+
+    .card-price {
+        font-weight: 700;
+        color: #15803d;
+    }
+
+    .card-old-price {
+        font-size: 12px;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 4px;
+    }
+
+    .card-cart-btn {
+        padding: 6px;
+        background-color: #dcfce7;
+        color: #15803d;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+        .card-cart-btn:hover {
+            background-color: #bbf7d0;
+        }
+
+    /* Icons */
+    .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Ürün Bilgileri</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-body" href="#">Anasayfa</a></li>
+                <li class="breadcrumb-item"><a class="text-body" href="#">Ürünler</a></li>
+                <li class="breadcrumb-item text-dark active" aria-current="page">@Model.Category.Name</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="section-header text-start wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px; visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+        <h1 class="display-5">Ürünümüz</h1>
+    </div>
+    <div class="product-grid">
+        <!-- Ürün Görselleri -->
+        <div class="product-images">
+            <div class="main-image">
+                <img src="~/img/@Model.Images[0].Url" alt="Organik Kırmızı Elma">
+            </div>
+
+            <div class="image-thumbnails">
+                <button class="thumbnail-btn active">
+                    <img src="~/img/@Model.Images[0].Url" alt="Elma Görsel 1">
+                </button>
+                <button class="thumbnail-btn">
+                    <img src="~/img/@Model.Images[1].Url" alt="Elma Görsel 2">
+                </button>
+                <button class="thumbnail-btn">
+                    <img src="~/img/@Model.Images[2].Url" alt="Elma Görsel 3">
+                </button>
+                <button class="thumbnail-btn">
+                    <img src="~/img/@Model.Images[3].Url" alt="Elma Görsel 4">
+                </button>
+            </div>
+        </div>
+
+        <!-- Ürün Bilgileri -->
+        <div class="product-info">
+            <div>
+                <span class="product-badge">Organik</span>
+                <h1 class="product-title">@Model.Name</h1>
+
+                <div class="product-rating">
+                    <div class="stars">
+                        <span>★★★★☆</span>
+                    </div>
+                    <span class="rating-count">4.8 (120 değerlendirme)</span>
+                </div>
+            </div>
+
+            <div class="product-price">
+                <span class="current-price">₺@Model.ListPrice</span>
+                <span class="original-price">₺15,90</span>
+                <span class="discount-badge">%19 İndirim</span>
+            </div>
+
+            <div class="product-description">
+                <p>
+                    @Model.Description
+                </p>
+            </div>
+
+            <div class="product-options">
+                <div>
+                    <label class="option-label">Miktar Seçin</label>
+                    <div class="weight-options">
+                        <button class="weight-btn">500g</button>
+                        <button class="weight-btn active">1kg</button>
+                        <button class="weight-btn">2kg</button>
+                        <button class="weight-btn">5kg</button>
+                    </div>
+                </div>
+
+                <div class="quantity-selector">
+                    <label class="quantity-label">Adet:</label>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn">-</button>
+                        <input type="text" class="quantity-input" value="1" readonly>
+                        <button class="quantity-btn">+</button>
+                    </div>
+                    <span class="stock-info">Stokta @Model.Stock kg kaldı</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="add-to-cart">
+                        <span class="cart-icon">🛒</span>
+                        Sepete Ekle
+                    </button>
+                    <button class="action-icon-btn">❤️</button>
+                    <button class="action-icon-btn">🔗</button>
+                </div>
+            </div>
+
+            <div class="delivery-info">
+                <div class="info-item">
+                    <span class="info-icon">🚚</span>
+                    <span class="info-text">Bugün sipariş verirseniz <strong>yarın</strong> kargoda</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    <span class="info-text">100₺ üzeri siparişlerde <strong>ücretsiz kargo</strong></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">✓</span>
+                    <span class="info-text">Memnun kalmazsanız <strong>14 gün içinde iade garantisi</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ürün Detayları Sekmeleri -->
+    <div class="product-tabs">
+        <div class="tabs-nav">
+            <button class="tab-btn active">Ürün Detayları</button>
+            <button class="tab-btn">Besin Değerleri</button>
+            <button class="tab-btn">Yorumlar (120)</button>
+            <button class="tab-btn">Teslimat Bilgileri</button>
+        </div>
+
+        <div class="tab-content">
+            <h3>@Model.Name</h3>
+            <p>
+                @Model.Description
+            </p>
+
+            <h4>Özellikleri:</h4>
+            <ul>
+                <li>%100 Organik sertifikalı</li>
+                <li>Hiçbir kimyasal ilaç ve gübre kullanılmadan yetiştirilmiştir</li>
+                <li>Yüksek C vitamini ve antioksidan içeriği</li>
+                <li>Taze ve sulu yapısı</li>
+                <li>El ile özenle toplanmıştır</li>
+            </ul>
+
+            <h4>Saklama Koşulları:</h4>
+            <p>
+                Buzdolabında 1-2 hafta tazeliğini korur. Oda sıcaklığında 3-5 gün içinde tüketilmesi önerilir.
+            </p>
+        </div>
+    </div>
+
+    <!-- Benzer Ürünler -->
+    @await Component.InvokeAsync("_ProductSimilar_ViewComponentPartial", Model.Id)
+</div>
+</div>
+<script>
+    // Basit JavaScript fonksiyonları
+    document.addEventListener('DOMContentLoaded', function () {
+        // Miktar seçimi butonları
+        const weightButtons = document.querySelectorAll('.weight-btn');
+        weightButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                weightButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Adet artırma/azaltma
+        const quantityInput = document.querySelector('.quantity-input');
+        const decreaseBtn = document.querySelector('.quantity-btn:first-child');
+        const increaseBtn = document.querySelector('.quantity-btn:last-child');
+
+        decreaseBtn.addEventListener('click', function () {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function () {
+            let value = parseInt(quantityInput.value);
+            if (value < 48) { // Stok sınırı
+                quantityInput.value = value + 1;
+            }
+        });
+
+        // Tab değişimi
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Gerçek uygulamada burada tab içeriği değiştirilir
+            });
+        });
+
+        // Küçük resim tıklama
+        const thumbnailButtons = document.querySelectorAll('.thumbnail-btn');
+        const mainImage = document.querySelector('.main-image img');
+
+        thumbnailButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                thumbnailButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // Ana resmi değiştir
+                const thumbnailSrc = this.querySelector('img').src;
+                mainImage.src = thumbnailSrc.replace('80x80', '600x600');
+            });
+        });
+    });
+</script>
+

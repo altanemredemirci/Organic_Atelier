@@ -15,12 +15,12 @@ namespace DAL.Concrete.EfCore
             _context = context;
         }
 
-        public List<T> GetAll()
+        public virtual List<T> GetAll()
         {
             return _context.Set<T>().ToList();
         }
 
-        public List<T> GetAll(Expression<Func<T,bool>> filter = null)
+        public virtual List<T> GetAll(Expression<Func<T,bool>> filter = null)
         {
             var entities = _context.Set<T>().AsQueryable();
 
@@ -32,23 +32,23 @@ namespace DAL.Concrete.EfCore
             return entities.ToList();
         }
 
-        public T GetOne(int id)
+        public virtual T GetOne(int id)
         {
             return _context.Set<T>().Find(id);
         }
 
-        public int Create(T entity)
+        public virtual int Create(T entity)
         {
             _context.Set<T>().Add(entity);
             return _context.SaveChanges();
         }
 
-        public int Update()
+        public virtual int Update()
         {
             return _context.SaveChanges();
         }
 
-        public int Delete(int id)
+        public virtual int Delete(int id)
         {
             var entity = _context.Set<T>().Find(id);
 

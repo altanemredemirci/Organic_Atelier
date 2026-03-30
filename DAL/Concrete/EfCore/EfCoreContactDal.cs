@@ -8,18 +8,18 @@ using System.Text;
 
 namespace DAL.Concrete.EfCore
 {
-    public class EfCoreCategoryDal:EfCoreGenericRepository<Category,DataContext>,ICategoryDal
+    public class EfCoreContactDal : IContactDal
     {
         private readonly DataContext _context;
 
-        public EfCoreCategoryDal(DataContext context):base(context)
+        public EfCoreContactDal(DataContext context)
         {
             _context = context;
         }
 
-        public Category GetByCategoryId(int id)
+        public Contact GetById()
         {
-            return _context.Categories.Where(i => i.Id == id).Include(i => i.Products).FirstOrDefault();
+            return _context.Contacts.Include(i=> i.SocialMedias).FirstOrDefault();
         }
     }
 }

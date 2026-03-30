@@ -1,14 +1,12 @@
 ﻿using CORE.Entities;
-using CORE.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace DAL.Abstract
 {
-    public interface IProductDal : IRepositoryService<Product>
+    public interface IContactDal
     {
-        
+        Contact GetById();
     }
 }

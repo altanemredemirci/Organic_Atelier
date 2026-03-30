@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DAL.Abstract
+namespace BLL.Abstract
 {
-    public interface IProductDal : IRepositoryService<Product>
+    public interface IProductService : IRepositoryService<Product>
     {
         
     }

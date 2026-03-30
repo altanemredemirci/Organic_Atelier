@@ -1,0 +1,46 @@
+﻿@model WEBUI.EmailService.Mail
+
+<div class="col-lg-7 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+
+    @if (TempData["message"] != null)
+    {
+        <p class="text-info mb-4">@TempData["message"]</p>
+    }
+    else
+    {
+        <p class="mb-4">Bilgi almak için lütfen bizimle iletişime geçiniz.</p>
+    }
+
+   
+    <form asp-action="SendMail" asp-controller="Home" method="post">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Name" class="form-control"  placeholder="Ad..">
+                    <label for="name">Adınız</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Email" class="form-control" placeholder="Email..">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <input asp-for="Subject" class="form-control" placeholder="Konu..">
+                    <label for="subject">Konu</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-floating">
+                    <textarea asp-for="Message" class="form-control" placeholder="Mesaj.." id="message" style="height: 200px">@Model.Message</textarea>
+                    <label for="message">Mesaj</label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Gönder</button>
+            </div>
+        </div>
+    </form>
+</div>
