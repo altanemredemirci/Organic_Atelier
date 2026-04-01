@@ -1,6 +1,7 @@
 using BLL.Abstract;
 using BLL.Concrete;
 using CORE.Identity;
+using CORE.Mapping;
 using DAL.Abstract;
 using DAL.Concrete.EfCore;
 using DAL.Context;
@@ -77,6 +78,8 @@ Bütün bunlarý daha anlaþýlýr hale getirebilmek için birde örnekler üzer
    */
             #endregion
 
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -95,7 +98,7 @@ Bütün bunlarý daha anlaþýlýr hale getirebilmek için birde örnekler üzer
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}")
+                pattern: "{controller=Product}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

@@ -38,9 +38,14 @@ namespace BLL.Concrete
             return _productDal.GetOne(id);
         }
 
+        public int Update(Product updateProduct, List<Image> images)
+        {
+            return _productDal.Update(updateProduct, images);
+        }
+
         public int Update()
         {
-            return _productDal.Update();
+            throw new NotImplementedException();
         }
     }
 }

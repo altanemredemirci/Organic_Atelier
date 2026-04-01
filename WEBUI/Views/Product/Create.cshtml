@@ -1,0 +1,83 @@
+﻿@model CreateProductDTO
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 12 Birim -->
+                <div class="col-md-6 offset-3">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Ürün Ekle</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form action="/Product/Create" method="post" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select class="form-control" asp-for="CategoryId">
+                                        @foreach (Category item in (List<Category>)ViewBag.Categories)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                      
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ürün Ad</label>
+                                    <input asp-for=Name class="form-control" placeholder="Ürün adı..">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ürün Fiyatı</label>
+                                        <input asp-for="ListPrice" class="form-control" min="0" max="500" step="0.1" placeholder="Ürün fiyatı..">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ürün Açıklaması</label>
+                                            <textarea asp-for="Description" rows="5" class="form-control">@Model.Description</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ürün Stok</label>
+                                            <input asp-for=Stock class="form-control" min="0" max="500" step="10" placeholder="Ürün stok..">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>İndirim</label>
+                                                <input asp-for="Discount" class="form-control" min="0" max="100" step="1" placeholder="İndirim..">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Resim</label>
+                                                    <input type="file" class="form-control" name="files" multiple>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" asp-for="IsFavorite">
+                                                            <label class="form-check-label">Favori</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-body -->
+
+                                                <div class="card-footer">
+                                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.card -->
+
+
+                                    </div>
+
+                                </div>
+                                <!-- /.row -->
+                            </div><!-- /.container-fluid -->
+                        </div>
+                    </div>
+

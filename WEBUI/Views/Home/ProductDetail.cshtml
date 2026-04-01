@@ -570,19 +570,13 @@
                 <img src="~/img/@Model.Images[0].Url" alt="Organik Kırmızı Elma">
             </div>
 
-            <div class="image-thumbnails">
-                <button class="thumbnail-btn active">
-                    <img src="~/img/@Model.Images[0].Url" alt="Elma Görsel 1">
-                </button>
-                <button class="thumbnail-btn">
-                    <img src="~/img/@Model.Images[1].Url" alt="Elma Görsel 2">
-                </button>
-                <button class="thumbnail-btn">
-                    <img src="~/img/@Model.Images[2].Url" alt="Elma Görsel 3">
-                </button>
-                <button class="thumbnail-btn">
-                    <img src="~/img/@Model.Images[3].Url" alt="Elma Görsel 4">
-                </button>
+            <div class="image-thumbnails">               
+                @foreach (var item in Model.Images)
+                {
+                        <button class="thumbnail-btn active">
+                            <img src="~/img/@item.Url" alt="@item.Product.Name">
+                        </button>
+                }
             </div>
         </div>
 

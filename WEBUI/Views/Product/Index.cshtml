@@ -1,0 +1,99 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Ürünler</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Anasayfa</a></li>
+                        <li class="breadcrumb-item active">Ürünler</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <a href="/Product/Create" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Yeni Ürün</a>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Ürün Listesi</h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0" style="height: 500px;">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th width="5%">ID</th>
+                                        <th width="15%">Resim</th>
+                                        <th width="10%">Ürün Adı</th>
+                                        <th width="5%">Fiyat</th>
+                                        <th width="5%">Stok</th>
+                                        <th width="20%">Açıklama</th>
+                                        <th width="10%">Favori</th>
+                                        <th width="10%">İndirim</th>
+                                        <th width="10%">Kategori</th>
+                                        <th width="10%">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="text-center">
+                                            <td>@item.Id</td>
+                                            <td><img src="~/img/@item.Images[0].Url" width="50%" /></td>
+                                            <td>@item.Name</td>
+                                            <td>@item.ListPrice</td>
+                                            <td>@item.Stock</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.IsFavorite</td>
+                                            <td>@item.Discount</td>
+                                            <td>@item.Category.Name</td>
+                                            <td>
+                                                <a href="/Product/Edit?id=@item.Id" class="btn btn-warning btn-sm">
+                                                    <i class="far fa-edit"></i> Güncelle
+                                                </a>
+                                                <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Sil</a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                   
+                               
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
