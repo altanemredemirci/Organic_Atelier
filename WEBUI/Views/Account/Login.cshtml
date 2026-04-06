@@ -1,0 +1,58 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+﻿    <!-- Page Header Start -->
+<div class="container-fluid page-header mb-1 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <h1 class="display-3 mb-3 animated slideInDown">Giriş Yap</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">  <a class="text-body"> Üye değil misin?  </a> <a href="/Account/Register">Üye Ol!</a> </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<div class="container-xxl">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+
+            <div class="col-6 offset-3">
+
+                    @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-warning">
+                        @TempData["success"]
+                    </div>
+                }
+                <form asp-action="Login" asp-controller="Account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Giriş Yap</button>
+                    </div>
+                    <div class="mb-3">
+                        <a href="/Account/Register">Kayıt Ol</a>
+                    </div>
+                    <div class="mb-3">
+                        <a href="/Account/ForgotPassword">Şifremi Unuttum</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
